@@ -79,7 +79,9 @@ gss_transaction_finished (SoupMessage * msg, GssTransaction * t)
 {
   t->total_time += g_get_real_time ();
 
+#ifdef TRASH_SYSLOG_WITH_TRANSACTION_LOG
   gss_log_transaction (t);
+#endif
   if (t->sync_process_time > 1000) {
     char *uri;
     uri = soup_uri_to_string (soup_message_get_uri (t->msg), TRUE);

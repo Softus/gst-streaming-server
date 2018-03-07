@@ -37,9 +37,9 @@ gss_log_init (void)
   GST_DEBUG_CATEGORY_INIT (gss_debug, "gss", 0, "Streaming Server");
 
 #if GST_CHECK_VERSION(1,0,0)
-  gst_debug_set_default_threshold (GST_LEVEL_FIXME);
+  gst_debug_set_default_threshold (GST_LEVEL_ERROR);
 #else
-  gst_debug_set_default_threshold (GST_LEVEL_WARNING);
+  gst_debug_set_default_threshold (GST_LEVEL_ERROR);
 #endif
   gst_debug_set_threshold_for_name ("gss", GST_LEVEL_INFO);
   gst_debug_remove_log_function (gst_debug_log_default);
