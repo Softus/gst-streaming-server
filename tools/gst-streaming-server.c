@@ -42,6 +42,11 @@
 #include <stdlib.h>
 
 
+#define DEFAULT_TYPE GSS_STREAM_TYPE_M2TS_H264MAIN_AAC
+#define DEFAULT_WIDTH 640
+#define DEFAULT_HEIGHT 360
+#define DEFAULT_BITRATE 600000
+
 #define CONFIG_FILENAME "config"
 
 #define LOG g_print
@@ -51,7 +56,7 @@ gboolean cl_verbose;
 gboolean enable_daemon = FALSE;
 int http_port = 0;
 int https_port = 0;
-char *config_file = NULL;
+char *config_file = CONFIG_FILENAME;
 
 static void signal_interrupt (int signum);
 static void add_program (GssServer * server, int i);
@@ -158,7 +163,7 @@ main (int argc, char *argv[])
   if (cl_verbose)
     gss_log_set_verbosity (2);
 
-  config = g_object_new (GSS_TYPE_CONFIG, "config-file", "config", NULL);
+  config = g_object_new (GSS_TYPE_CONFIG, "config-file", config_file, NULL);
   gss_config_load_config_file (config);
 
   server = g_object_new (GSS_TYPE_SERVER, "name", "admin.server",
@@ -185,21 +190,24 @@ main (int argc, char *argv[])
   gss_server_create_module (server, config, GSS_TYPE_VOD, "admin.vod");
   gss_server_create_module (server, config, GSS_TYPE_PLAYREADY, "admin.pr");
 
-  for (i = 0; i < 0; i++) {
-    char *key;
-
-    key = g_strdup_printf ("stream%d", i);
-#if 0
-    if (!gss_config_exists (server->config, key))
-      break;
-#endif
-
-    add_program (server, i);
-
+  for (i = 0; i < 1000; i++) {
+    GssStreamType type = GSS_STREAM_TYPE_UNKNOWN;
+    char *key = g_strdup_printf ("stream%d", i);
+    GObject *object = gss_config_create_object (config, GSS_TYPE_PUSH, key);
     g_free (key);
-  }
+    g_object_get (object, "default-type", &type, NULL);
+    if (GSS_STREAM_TYPE_M2TS_H264MAIN_AAC != type) {
+      g_object_unref (object);
+      break;
+    }
 
-  gss_config_save_config_file (config);
+    g_object_get (object, "title", &key, NULL);
+    g_object_set (object, "name", key, NULL);
+
+    gss_server_add_program_simple (server, GSS_PROGRAM (object));
+    gss_program_add_stream_full (GSS_PROGRAM (object), DEFAULT_TYPE,
+        DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_BITRATE, NULL);
+  }
 
   main_loop = g_main_loop_new (NULL, TRUE);
 
@@ -222,22 +230,4 @@ signal_interrupt (int signum)
   if (main_loop) {
     g_main_loop_quit (main_loop);
   }
-}
-
-
-static void
-add_program (GssServer * server, int i)
-{
-  GssProgram *program;
-  char *title;
-
-  title = g_strdup_printf ("Stream #%d", i);
-  program = gss_push_new ();
-  g_object_set (program,
-      "title", title, "description", "Automatically created push stream", NULL);
-  gss_object_set_automatic_name (GSS_OBJECT (program));
-  gss_server_add_program_simple (server, program);
-  g_free (title);
-
-  g_object_set (program, "enabled", TRUE, NULL);
 }
