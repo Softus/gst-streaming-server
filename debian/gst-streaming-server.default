@@ -7,7 +7,7 @@
 #
 
 # HTTP port, typically 80
-HTTP_PORT=8081
+HTTP_PORT=8080
 
 # HTTPS port, typically 443
 HTTPS_PORT=8443
