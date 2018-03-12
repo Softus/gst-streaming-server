@@ -1,0 +1,15 @@
+#!/bin/sh
+
+case "$1" in
+  purge)
+
+    # Remove all files
+    rm -rf /var/lib/gss
+    rm -f /var/log/gst-streaming-server.log
+
+    userdel gss || :
+  ;;
+
+esac
+
+#DEBHELPER#

@@ -1,3 +1,11 @@
+gst-streaming-server (0.1~20180311-xenial) xenial; urgency=low
+
+  * Set default ports to 8080/8443
+  * Less verbose log
+  * Systemd service
+
+ -- Pavel Bludov <pbludov@gmail.com>  Wed, 7 Mar 2018 12:17:35 +0800
+
 gst-streaming-server (0.1~20131123-3) precise; urgency=low
 
   * another new snapshot

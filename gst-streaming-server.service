@@ -1,0 +1,23 @@
+[Unit]
+Description=GStreamer Streaming Server
+After=network.target
+
+[Service]
+Environment=HTTP_PORT=8080
+Environment=HTTPS_PORT=8444
+Type=simple
+User=gss
+Group=gss
+WorkingDirectory=/var/lib/gss
+ExecStart=/usr/bin/gst-streaming-server --http-port=${HTTP_PORT} --https-port=${HTTPS_PORT} --config-file /etc/gst-streaming-server.conf
+Restart=always
+RestartSec=5
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=gst-streaming-server
+
+# Give a reasonable amount of time for the server to start up/shut down
+TimeoutSec=300
+
+[Install]
+WantedBy=multi-user.target

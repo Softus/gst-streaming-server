@@ -1,0 +1,11 @@
+#!/bin/sh
+
+case "$1" in
+  remove)
+
+    service gst-streaming-server stop || :
+  ;;
+
+esac
+
+#DEBHELPER#

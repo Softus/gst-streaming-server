@@ -1,0 +1,12 @@
+#!/bin/sh
+
+case "$1" in
+  install)
+
+    useradd -rmb /var/lib -s /sbin/nologin gss || :
+    service rsyslog restart || :
+  ;;
+
+esac
+
+#DEBHELPER#
