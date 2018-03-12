@@ -10,7 +10,7 @@ debian_files = \
 	debian/README.source \
 	debian/rules \
 	debian/copyright \
-	debian/gst-streaming-server.upstart \
+	debian/install \
 	debian/control \
 	debian/compat \
 	debian/postinst \
