@@ -1,0 +1,82 @@
+- pipeline: "Buddy"
+  trigger_mode: "ON_EVERY_PUSH"
+  ref_name: "master"
+  actions:
+  - action: "CentOS"
+    type: "BUILD"
+    docker_image_name: "library/centos"
+    docker_image_tag: "latest"
+    execute_commands:
+    - ./autogen.sh --noconfigure
+    - export RPM_BUILD_NCPUS=2
+    - tar czf ../${project.name}.tar.gz --exclude=debian --exclude=*.yml * && rpmbuild -ta ../${project.name}.tar.gz
+    setup_commands:
+    - yum install -y epel-release
+    - yum install -y rpm-build git make cmake libtool gcc-c++ gettext-devel gtk-doc libsoup-devel gstreamer1-rtsp-server-devel json-glib-devel openssl-devel gstreamer1-devel gstreamer1-plugins-base-devel
+    trigger_condition: "ALWAYS"
+    working_directory: "/buddy/centos"
+
+  - action: "Debian"
+    type: "BUILD"
+    docker_image_name: "library/debian"
+    docker_image_tag: "latest"
+    execute_commands:
+    - ./autogen.sh --noconfigure
+    - dpkg-buildpackage -us -uc -tc -Icache* -I*.yml -rfakeroot
+    setup_commands:
+    - apt update -q
+    - apt install -y debhelper fakeroot gettext libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libjson-glib-dev libsoup2.4-dev libssl-dev
+    trigger_condition: "ALWAYS"
+    working_directory: "/buddy/debian"
+
+  - action: "Fedora"
+    type: "BUILD"
+    docker_image_name: "library/fedora"
+    docker_image_tag: "latest"
+    execute_commands:
+    - ./autogen.sh --noconfigure
+    - export RPM_BUILD_NCPUS=2
+    - tar czf ../${project.name}.tar.gz --exclude=debian --exclude=*.yml * && rpmbuild -ta ../${project.name}.tar.gz
+    setup_commands:
+    - dnf install -y rpm-build make gcc-c++ libtool gstreamer1-devel gettext-devel gstreamer1-rtsp-server-devel libsoup-devel json-glib-devel openssl-devel
+    trigger_condition: "ALWAYS"
+    working_directory: "/buddy/fedora"
+
+  - action: "Mageia"
+    type: "BUILD"
+    docker_image_name: "library/mageia"
+    docker_image_tag: "latest"
+    execute_commands:
+    - ./autogen.sh --noconfigure
+    - export RPM_BUILD_NCPUS=2
+    - tar czf ../${project.name}.tar.gz --exclude=debian --exclude=*.yml * && rpmbuild -ta ../${project.name}.tar.gz
+    setup_commands:
+    - dnf install -y rpm-build git make cmake gcc-c++ gettext-devel gtk-doc lib64openssl-devel lib64soup-devel lib64gstrtspserver-devel lib64json-glib-devel lib64gstreamer1.0-devel lib64gstreamer-plugins-base1.0-devel
+    trigger_condition: "ALWAYS"
+    working_directory: "/buddy/mageia"
+
+  - action: "openSUSE"
+    type: "BUILD"
+    docker_image_name: "library/opensuse"
+    docker_image_tag: "latest"
+    execute_commands:
+    - ./autogen.sh --noconfigure
+    - export RPM_BUILD_NCPUS=2
+    - tar czf ../${project.name}.tar.gz --exclude=debian --exclude=*.yml * && rpmbuild -ta ../${project.name}.tar.gz
+    setup_commands:
+    - zypper install -y rpm-build make libtool gettext-tools libsoup-devel json-glib-devel gstreamer-devel libopenssl-devel
+    trigger_condition: "ALWAYS"
+    working_directory: "/buddy/opensuse"
+
+  - action: "Ubuntu"
+    type: "BUILD"
+    docker_image_name: "library/ubuntu"
+    docker_image_tag: "latest"
+    execute_commands:
+    - ./autogen.sh --noconfigure
+    - dpkg-buildpackage -us -uc -tc -Icache* -I*.yml -rfakeroot
+    setup_commands:
+    - apt update -q
+    - apt install -y automake autoconf autopoint debhelper fakeroot git libtool libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libjson-glib-dev libsoup2.4-dev libssl-dev
+    trigger_condition: "ALWAYS"
+    working_directory: "/buddy/ubuntu"

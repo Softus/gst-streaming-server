@@ -24,19 +24,19 @@ BuildRequires: make, gcc-c++, libtool, systemd
 %{?fedora:BuildRequires: gstreamer1-devel, gstreamer1-rtsp-server-devel, libsoup-devel, json-glib-devel, openssl-devel}
 %{?fedora:Requires: gstreamer1-plugins-base, gstreamer1-plugins-good, gstreamer1-plugins-bad-free}
 
-%{?rhel:BuildRequires: gtk-doc, gstreamer1-devel, gettext-devel, libsoup-devel, gstreamer1-rtsp-server-devel, json-glib-devel, openssl-devel}
+%{?rhel:BuildRequires: gtk-doc, gstreamer1-devel, gstreamer1-rtsp-server-devel, gettext-devel, libsoup-devel, json-glib-devel, openssl-devel}
 %{?rhel:Requires: gstreamer1-plugins-base, gstreamer1-plugins-good, gstreamer1-plugins-bad-free}
 
-%{?suse_version:BuildRequires: gstreamer-devel, libsoup-devel, json-glib-devel, openssl-devel}
+%{?suse_version:BuildRequires: gstreamer-devel, gstreamer-rtsp-server-devel, libsoup-devel, json-glib-devel, libopenssl-devel}
 %{?suse_version:Requires: gstreamer-plugins-base, gstreamer-plugins-good, gstreamer-plugins-bad}
 
 %if 0%{?mageia}
 BuildRequires: gettext-devel, gtk-doc
 %ifarch x86_64 amd64
-BuildRequires: lib64gstreamer1.0-devel, lib64soup-devel, lib64gstrtspserver-devel, lib64json-glib-devel, lib64gstreamer-plugins-base1.0-devel
+BuildRequires: lib64gstreamer1.0-devel, lib64openssl-devel, lib64soup-devel, lib64gstrtspserver-devel, lib64json-glib-devel, lib64gstreamer-plugins-base1.0-devel
 Requires: lib64gstreamer-plugins-base1.0_0
 %else
-BuildRequires: libgstreamer1.0-devel,   libsoup-devel,   libgstrtspserver-devel,   libjson-glib-devel,   libgstreamer-plugins-base1.0-devel
+BuildRequires: libgstreamer1.0-devel,   libopenssl-devel,   libsoup-devel,   libgstrtspserver-devel,   libjson-glib-devel,   libgstreamer-plugins-base1.0-devel
 Requires: libgstreamer-plugins-base1.0_0
 %endif
 %else
