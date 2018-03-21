@@ -1,4 +1,4 @@
-gst-streaming-server (0.1~20180311-xenial) xenial; urgency=low
+gst-streaming-server (0.1~20180311-bionic2) bionic; urgency=low
 
   * Set default ports to 8080/8443
   * Less verbose log

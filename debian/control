@@ -2,7 +2,9 @@ Source: gst-streaming-server
 Section: video
 Priority: extra
 Maintainer: David Schleef <ds@unknown>
-Build-Depends: debhelper (>= 8.0.0), libssl-dev, libjson-glib-dev, libsoup2.4-dev, autopoint | gettext, libglib2.0-dev, autoconf, automake, libtool, pkg-config
+Build-Depends: debhelper (>= 8.0.0), fakeroot, git, autopoint | gettext,
+  autoconf, automake, libtool, pkg-config, libssl-dev, libjson-glib-dev,
+  libsoup2.4-dev, libglib2.0-dev, libgstreamer1.0-dev, libgstreamer-plugins-base1.0-dev
 Standards-Version: 3.9.4
 Homepage: http://gstreamer.freedesktop.org/
 #Vcs-Git: git://git.debian.org/collab-maint/gst-streaming-server.git
